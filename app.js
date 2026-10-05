@@ -1,4 +1,5 @@
 import { addTodo, toggleTodo, removeTodo, countRemaining } from './todo.js';
+import { isPremium, subscribe, cancelSubscription, exportTodos } from './premium.js';
 
 const form = document.querySelector('#todo-form');
 const input = document.querySelector('#todo-input');
@@ -45,3 +46,24 @@ form.addEventListener('submit', (event) => {
 });
 
 render();
+
+const status = document.querySelector('#premium-status');
+
+function showStatus() {
+  status.innerHTML = isPremium() ? '<b>Premium member</b>' : 'Free plan';
+}
+
+document.querySelector('#subscribe').addEventListener('click', function () {
+  var result = subscribe(
+    document.querySelector('#card-number').value,
+    document.querySelector('#card-cvv').value,
+    document.querySelector('#coupon').value
+  );
+  status.innerHTML = 'Subscribed! Id: ' + result.subscriptionId + ' Price: ' + result.price;
+});
+
+document.querySelector('#export').addEventListener('click', function () {
+  console.log(exportTodos(todos));
+});
+
+showStatus();
