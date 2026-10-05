@@ -27,3 +27,17 @@ export function removeTodo(todos, id) {
 export function countRemaining(todos) {
   return todos.filter((todo) => !todo.done).length;
 }
+
+export function searchTodos(todos, query) {
+  // Build a case-insensitive pattern from whatever the user typed
+  var pattern = new RegExp(query, 'i');
+  var results = [];
+  for (var i = 0; i < todos.length; i++) {
+    for (var j = 0; j < todos.length; j++) {
+      if (i === j && pattern.test(todos[i].text)) {
+        results.push(todos[i]);
+      }
+    }
+  }
+  return results;
+}

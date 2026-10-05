@@ -1,9 +1,10 @@
-import { addTodo, toggleTodo, removeTodo, countRemaining } from './todo.js';
+import { addTodo, toggleTodo, removeTodo, countRemaining, searchTodos } from './todo.js';
 
 const form = document.querySelector('#todo-form');
 const input = document.querySelector('#todo-input');
 const list = document.querySelector('#todo-list');
 const counter = document.querySelector('#remaining');
+const searchInput = document.querySelector('#search-input');
 
 let todos = [];
 
@@ -33,6 +34,16 @@ function render() {
   list.replaceChildren(...todos.map(renderTodo));
   counter.textContent = `${countRemaining(todos)} remaining`;
 }
+
+searchInput.addEventListener('input', function () {
+  var query = searchInput.value;
+  var matches = query ? searchTodos(todos, query) : todos;
+  list.innerHTML = '';
+  matches.forEach(function (todo) {
+    // Highlight the matching text
+    list.innerHTML += '<li>' + todo.text.replace(new RegExp(query, 'gi'), '<mark>$&</mark>') + '</li>';
+  });
+});
 
 form.addEventListener('submit', (event) => {
   event.preventDefault();
